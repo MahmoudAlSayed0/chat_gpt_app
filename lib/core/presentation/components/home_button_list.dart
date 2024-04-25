@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:developer';
+import 'package:chat_gpt_app/core/presentation/cubit/chat/chat_cubit.dart';
 import 'package:chat_gpt_app/core/presentation/cubit/theme/theme_cubit.dart';
 import 'package:chat_gpt_app/utils/app_icons.dart';
 import 'package:chat_gpt_app/utils/appcolors.dart';
@@ -35,8 +36,8 @@ class HomeButtonList extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            onTap: () {
-              log('delete');
+            onTap: () async {
+              await context.read<ChatCubit>().deleteChats();
             },
             contentPadding: EdgeInsets.symmetric(
               horizontal: 20.w,

@@ -28,4 +28,7 @@ class MessageModel {
 
   factory MessageModel.fromJson(String source) =>
       MessageModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'MessageModel(isUser: $isUser, content: $content)';
 }
