@@ -1,9 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:chat_gpt_app/core/presentation/cubit/theme_cubit.dart';
 import 'package:chat_gpt_app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/home_button_list.dart';
@@ -20,7 +18,7 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.read<ThemeCubit>().state is LightTheme
+      backgroundColor: Theme.of(context).brightness == Brightness.light
           ? AppColors.white
           : AppColors.black,
       body: Column(

@@ -3,7 +3,7 @@
 import 'dart:developer';
 
 import 'package:chat_gpt_app/app/router.dart';
-import 'package:chat_gpt_app/core/data/onboarding_model.dart';
+import 'package:chat_gpt_app/core/data/models/onboarding_model.dart';
 import 'package:chat_gpt_app/utils/app_icons.dart';
 import 'package:chat_gpt_app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +144,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                       RouteManager.replace(RouteManager.home);
                     }
                   : () async {
-                      if (_controller.page == 1) {
+                      if (_controller.page! >= 1) {
                         doneOnboarding = true;
                       }
                       await _controller.nextPage(

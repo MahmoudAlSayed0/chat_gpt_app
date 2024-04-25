@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:chat_gpt_app/core/data/onboarding_model.dart';
+import 'package:chat_gpt_app/core/data/models/onboarding_model.dart';
 import 'package:chat_gpt_app/core/presentation/components/info_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

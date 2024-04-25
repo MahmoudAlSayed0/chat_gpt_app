@@ -1,5 +1,6 @@
 import 'package:chat_gpt_app/app/router.dart';
-import 'package:chat_gpt_app/core/presentation/cubit/theme_cubit.dart';
+import 'package:chat_gpt_app/core/presentation/cubit/chat/chat_cubit.dart';
+import 'package:chat_gpt_app/core/presentation/cubit/theme/theme_cubit.dart';
 import 'package:chat_gpt_app/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +20,9 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider<ThemeCubit>(
           create: (BuildContext context) => ThemeCubit(initialTheme),
+        ),
+        BlocProvider<ChatCubit>(
+          create: (BuildContext context) => ChatCubit(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

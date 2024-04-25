@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:developer';
-import 'package:chat_gpt_app/core/presentation/cubit/theme_cubit.dart';
+import 'package:chat_gpt_app/core/presentation/cubit/theme/theme_cubit.dart';
 import 'package:chat_gpt_app/utils/app_icons.dart';
 import 'package:chat_gpt_app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
