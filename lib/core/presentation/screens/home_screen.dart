@@ -1,199 +1,250 @@
 import 'dart:developer';
 
-import 'package:chat_gpt_app/core/data/onboarding_model.dart';
+import 'package:chat_gpt_app/core/presentation/cubit/theme_cubit.dart';
 import 'package:chat_gpt_app/utils/app_icons.dart';
 import 'package:chat_gpt_app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../components/info_container.dart';
-
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  OnboardingScreenState createState() => OnboardingScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class OnboardingScreenState extends State<OnboardingScreen> {
-  final _controller = PageController();
-  bool doneOnboarding = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-
+class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            80.verticalSpace,
-            SvgPicture.asset(
-              AppIcons.logoDark,
-              color: Theme.of(context).colorScheme.primary,
-              width: 24.sp,
-              height: 24.sp,
+      backgroundColor: context.read<ThemeCubit>().state is LightTheme
+          ? AppColors.white
+          : AppColors.black,
+      body: Column(
+        children: <Widget>[
+          60.verticalSpace,
+          const NewChatButton(),
+          Expanded(
+            child: Container(),
+          ),
+          Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(
+              vertical: 16.h,
             ),
-            24.verticalSpace,
-            SizedBox(
-              width: 200.w,
-              child: Text(
-                'Welcome to ChatGPT',
-                style: TextStyle(
-                  fontSize: 32.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            24.verticalSpace,
-            Text(
-              'Ask anything, get yout answer',
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            46.verticalSpace,
-            Flexible(
-              child: PageView(
-                controller: _controller,
-                children: [
-                  PageViewElement(
-                    data: OnboardingData(
-                      icon: AppIcons.sun,
-                      title: 'Examples',
-                      info: [
-                        '“Explain quantum computing in simple terms”',
-                        '“Got any creative ideas for a 10 year old’s birthday?”',
-                        '“How do I make an HTTP request in Javascript?”'
-                      ],
-                    ),
-                  ),
-                  PageViewElement(
-                    data: OnboardingData(
-                      icon: AppIcons.thunder,
-                      title: 'Capabilities',
-                      info: [
-                        'Remembers what user said earlier in the conversation',
-                        'Allows user to provide follow-up corrections',
-                        'Trained to decline inappropriate requests'
-                      ],
-                    ),
-                  ),
-                  PageViewElement(
-                    data: OnboardingData(
-                      icon: AppIcons.alert,
-                      title: 'Limitations',
-                      info: [
-                        'May occasionally generate incorrect information',
-                        'May occasionally produce harmful instructions or biased content',
-                        'Limited knowledge of world and events after 2021'
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SmoothPageIndicator(
-              controller: _controller,
-              count: 3,
-              effect: ColorTransitionEffect(
-                activeStrokeWidth: 2.h,
-                activeDotColor: AppColors.primary,
-                dotColor: Theme.of(context).colorScheme.primary.withOpacity(.2),
-                dotWidth: 28.w,
-                dotHeight: 2.h,
-                spacing: 16.w,
-              ),
-            ),
-            20.verticalSpace,
-            FilledButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStatePropertyAll(Theme.of(context).primaryColor),
-
-                minimumSize: MaterialStateProperty.all(Size(335.w, 48.h)),
-                // Set the padding
-                padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h)),
-                // Set the gap between the button's child and its border
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r)),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withOpacity(.4), // Specify the color of the border
+                  width: 2.0, // Specify the width of the border
                 ),
               ),
-              onPressed: doneOnboarding
-                  ? () {
-                      log('message');
-                    }
-                  : () async {
-                      if (_controller.page == 1) {
-                        doneOnboarding = true;
-                        setState(() {});
-                      }
-                      await _controller.nextPage(
-                          duration: Durations.medium2, curve: Curves.easeInOut);
-                    },
-              child: Text(
-                !doneOnboarding ? 'Next' : 'Let\'s Chat',
-                style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w700),
-              ),
             ),
-            20.verticalSpace,
-            /*  TextButton(
-              child: const Text('text'),
-              onPressed: () {
-                context.read<ThemeCubit>().toggleTheme();
-              },
-            ), */
-          ],
-        ),
+            child: Column(
+              children: [
+                ListTile(
+                  onTap: () {
+                    log('delete');
+                  },
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 4.h,
+                  ),
+                  leading: SvgPicture.asset(
+                    AppIcons.bin,
+                    width: 20.sp,
+                    height: 20.sp,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  title: Text(
+                    'Clear Conversations',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    log('upgrade');
+                  },
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 4.h,
+                  ),
+                  leading: SvgPicture.asset(
+                    AppIcons.person,
+                    width: 20.sp,
+                    height: 20.sp,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  title: Text(
+                    'Upgrade to Plus',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 0.5.h,
+                      horizontal: 8.w,
+                    ),
+                    decoration: BoxDecoration(
+                        color: AppColors.lightGold,
+                        borderRadius: BorderRadius.circular(8.r)),
+                    child: Text(
+                      'New',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.darkGold,
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    log('Change theme');
+                    context.read<ThemeCubit>().toggleTheme();
+                  },
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 4.h,
+                  ),
+                  leading: SvgPicture.asset(
+                    AppIcons.sun,
+                    width: 20.sp,
+                    height: 20.sp,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  title: Text(
+                    context.read<ThemeCubit>().state is LightTheme
+                        ? 'Dark mode'
+                        : 'Light mode',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    log('FAQ');
+                  },
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 4.h,
+                  ),
+                  leading: SvgPicture.asset(
+                    AppIcons.faq,
+                    width: 20.sp,
+                    height: 20.sp,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  title: Text(
+                    'Updates & FAQ',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    log('Logout');
+                  },
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 4.h,
+                  ),
+                  leading: SvgPicture.asset(
+                    AppIcons.logout,
+                    width: 20.sp,
+                    height: 20.sp,
+                    color: AppColors.red,
+                  ),
+                  title: Text(
+                    'Logout',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
 }
 
-class PageViewElement extends StatelessWidget {
-  const PageViewElement({super.key, required this.data});
-  final OnboardingData data;
+class NewChatButton extends StatelessWidget {
+  const NewChatButton({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: <Widget>[
-          SvgPicture.asset(
-            data.icon,
-            width: 20.sp,
-            height: 20.sp,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          12.verticalSpace,
-          Text(
-            data.title,
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w500,
+    return InkWell(
+      onTap: () {
+        log('new');
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 20.w,
+        ),
+        padding: EdgeInsets.symmetric(
+          vertical: 16.h,
+        ),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary
+                  .withOpacity(.4), // Specify the color of the border
+              width: 2.0, // Specify the width of the border
             ),
           ),
-          40.verticalSpace,
-          ...data.info.map((e) => InfoContainer(info: e)).toList()
-        ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                SvgPicture.asset(
+                  AppIcons.message,
+                  width: 20.sp,
+                  height: 20.sp,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                16.horizontalSpace,
+                Text(
+                  'New Chat',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                )
+              ],
+            ),
+            SvgPicture.asset(
+              AppIcons.rightArrow,
+              width: 12.sp,
+              height: 12.sp,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ],
+        ),
       ),
     );
   }
