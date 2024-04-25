@@ -11,4 +11,5 @@ class AppIcons {
   static const message = '$basePath/message.svg';
   static const person = '$basePath/person.svg';
   static const rightArrow = '$basePath/right_arrow.svg';
+  static const send = '$basePath/send.svg';
 }

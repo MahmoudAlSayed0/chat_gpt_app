@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_gpt_app/core/presentation/screens/chat_screen.dart';
 import 'package:chat_gpt_app/core/presentation/screens/home_screen.dart';
 import 'package:chat_gpt_app/core/presentation/screens/onboarding_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -87,9 +88,11 @@ class RouteManager {
 
   static const String onboarding = '/';
   static const String home = '/home';
+  static const String chat = '/chat';
   static Map<String, WidgetBuilder> globalRoutes = {
     onboarding: (context) => const OnboardingScreen(),
-    home: (context) => const HomeScreen()
+    home: (context) => const HomeScreen(),
+    chat: (context) => const ChatScreen()
   };
   static Route<dynamic>? Function(RouteSettings)? onGenerateGlobalRoute =
       (settings) {
