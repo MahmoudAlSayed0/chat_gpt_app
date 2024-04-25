@@ -84,12 +84,12 @@ class RouteManager {
 
 //Global routes across the application
 
-  static const String home = '/';
+  static const String onboarding = '/';
   static const String measuring = '/measuringScreen';
   static const String result = '/result';
   static const String submit = '/submit';
   static Map<String, WidgetBuilder> globalRoutes = {
-    home: (context) => const HomeScreen(),
+    onboarding: (context) => const OnboardingScreen(),
   };
   static Route<dynamic>? Function(RouteSettings)? onGenerateGlobalRoute =
       (settings) {
