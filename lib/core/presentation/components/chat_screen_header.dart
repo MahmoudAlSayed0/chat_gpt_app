@@ -33,7 +33,7 @@ class ChatScreenHeader extends StatelessWidget {
         children: <Widget>[
           InkWell(
             onTap: () async {
-              await context.read<ChatCubit>().clearAndSave();
+              // await context.read<ChatCubit>().clearAndSave();
 
               RouteManager.pop();
             },

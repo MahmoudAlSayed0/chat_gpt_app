@@ -38,88 +38,95 @@ class ChatScreenState extends State<ChatScreen> {
       },
       builder: (context, state) {
         final cubit = ChatCubit.get(context);
-        return Scaffold(
-            body: Column(
-          children: <Widget>[
-            45.verticalSpace,
-            const ChatScreenHeader(),
-            Expanded(
-              child: state.messages.isEmpty
-                  ? Center(
-                      child: Text(
-                        'Ask anything, get your answer',
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(.4)),
-                      ),
-                    )
-                  : ListView.builder(
-                      controller: scrollController,
-                      itemCount: state.messages.length,
-                      itemBuilder: (context, index) => ChatMessageWidget(
-                          isUser: state.messages[index].isUser,
-                          message: state.messages[index].content),
-                    ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: TextField(
-                controller: messageController,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(8.r),
-                  suffixIcon: state.requestState == RequestState.loading
-                      ? null
-                      : InkWell(
-                          onTap: () async {
-                            var text = messageController.text;
-                            messageController.clear();
+        return PopScope(
+          onPopInvoked: (didPop) async {
+            await context.read<ChatCubit>().clearAndSave();
 
-                            await cubit.sendMessage(text);
-                            await Future.delayed(
-                                const Duration(milliseconds: 200));
-                            if (state.messages.length > 1) {
-                              await scrollController.animateTo(
-                                scrollController.position.maxScrollExtent,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeOut,
-                              );
-                            }
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(8.r),
-                            child: SvgPicture.asset(AppIcons.send),
-                          ),
+            // RouteManager.pop();
+          },
+          child: Scaffold(
+              body: Column(
+            children: <Widget>[
+              45.verticalSpace,
+              const ChatScreenHeader(),
+              Expanded(
+                child: state.messages.isEmpty
+                    ? Center(
+                        child: Text(
+                          'Ask anything, get your answer',
+                          style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(.4)),
                         ),
-                  filled: true,
-                  fillColor:
-                      Theme.of(context).colorScheme.primary.withOpacity(.1),
-                  /*  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      // color: Colors.teal, // Border color
-                      width: 2.0, // Border width
+                      )
+                    : ListView.builder(
+                        controller: scrollController,
+                        itemCount: state.messages.length,
+                        itemBuilder: (context, index) => ChatMessageWidget(
+                            isUser: state.messages[index].isUser,
+                            message: state.messages[index].content),
+                      ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: TextField(
+                  controller: messageController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(8.r),
+                    suffixIcon: state.requestState == RequestState.loading
+                        ? null
+                        : InkWell(
+                            onTap: () async {
+                              var text = messageController.text;
+                              messageController.clear();
+
+                              await cubit.sendMessage(text);
+                              await Future.delayed(
+                                  const Duration(milliseconds: 200));
+                              if (state.messages.length > 1) {
+                                await scrollController.animateTo(
+                                  scrollController.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeOut,
+                                );
+                              }
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(8.r),
+                              child: SvgPicture.asset(AppIcons.send),
+                            ),
+                          ),
+                    filled: true,
+                    fillColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(.1),
+                    /*  enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        // color: Colors.teal, // Border color
+                        width: 2.0, // Border width
+                      ),
+                    ), */
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
-                  ), */
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary),
-                    borderRadius: BorderRadius.circular(8.r),
-                    // Border radius
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary),
+                      borderRadius: BorderRadius.circular(8.r),
+                      // Border radius
+                    ),
                   ),
                 ),
               ),
-            ),
-            40.verticalSpace
-          ],
-        ));
+              40.verticalSpace
+            ],
+          )),
+        );
       },
     );
   }

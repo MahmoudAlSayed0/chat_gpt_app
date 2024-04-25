@@ -4,12 +4,10 @@ import 'dart:developer';
 
 import 'package:chat_gpt_app/app/router.dart';
 import 'package:chat_gpt_app/core/presentation/cubit/chat/chat_cubit.dart';
-import 'package:chat_gpt_app/utils/app_icons.dart';
 import 'package:chat_gpt_app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../components/chat_history_widget.dart';
 import '../components/home_button_list.dart';

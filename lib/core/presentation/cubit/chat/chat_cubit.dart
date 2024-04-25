@@ -38,6 +38,8 @@ class ChatCubit extends Cubit<ChatState> {
       if (!state.recentChats.any((element) => element == state.messages)) {
         await repo.saveChat(state.messages);
         await getChats();
+      } else {
+        emit(state.copyWith(messages: []));
       }
     }
   }
