@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:chat_gpt_app/core/data/models/message_model.dart';
 import 'package:chat_gpt_app/core/data/models/request_state.dart';

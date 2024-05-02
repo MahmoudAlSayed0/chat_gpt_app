@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:developer';
+import 'package:chat_gpt_app/app/router.dart';
 import 'package:chat_gpt_app/core/presentation/cubit/chat/chat_cubit.dart';
 import 'package:chat_gpt_app/core/presentation/cubit/theme/theme_cubit.dart';
 import 'package:chat_gpt_app/utils/app_icons.dart';
@@ -145,7 +146,7 @@ class HomeButtonList extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              log('Logout');
+              RouteManager.replaceUntilOrAll(RouteManager.splash);
             },
             contentPadding: EdgeInsets.symmetric(
               horizontal: 20.w,
