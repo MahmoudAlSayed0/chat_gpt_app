@@ -23,7 +23,7 @@ class AppInterceptor extends Interceptor {
       ..headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
         'Accept': 'application/json',
-        HttpHeaders.authorizationHeader: 'Bearer ${AppConfig.key}'
+        HttpHeaders.authorizationHeader: 'Bearer ${AppConfig.key2}'
       };
     super.onRequest(options, handler);
   }

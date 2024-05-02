@@ -38,12 +38,13 @@ class AppRepository {
     }
   }
 
-  Future<void> saveChat(List<MessageModel> messages) async {
+  Future<void> saveChat(String? id, List<MessageModel> messages) async {
     String data =
         json.encode({"messages": messages.map((e) => e.toMap()).toList()});
     log('saving$data');
+
     await LocalDataSource.saveChat(
-        DateTime.now().millisecondsSinceEpoch.toString(), data);
+        id ?? DateTime.now().millisecondsSinceEpoch.toString(), data);
   }
 
   Future<List<MessageModel>> getChat(String id) async {

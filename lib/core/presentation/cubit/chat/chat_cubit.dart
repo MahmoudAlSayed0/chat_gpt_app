@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:chat_gpt_app/core/data/models/message_model.dart';
 import 'package:chat_gpt_app/core/data/models/request_state.dart';
@@ -20,27 +21,42 @@ class ChatCubit extends Cubit<ChatState> {
     MessageModel message = MessageModel(isUser: true, content: text);
 
     emit(state.copyWith(
-        requestState: RequestState.loading,
-        messages: [...state.messages, message]));
-    final res = await repo.sendMessage(messages: [...state.messages, message]);
+      requestState: RequestState.loading,
+      messages: {
+        state.messages.entries.first.key:
+            state.messages.entries.first.value.isNotEmpty
+                ? [...state.messages.entries.first.value, message]
+                : [message]
+      },
+    ));
+    final res =
+        await repo.sendMessage(messages: state.messages.entries.first.value);
     res.fold((l) {
       emit(state.copyWith(
           requestState: RequestState.error, errorMessage: l.message));
     }, (r) {
-      emit(state.copyWith(
-          requestState: RequestState.success,
-          messages: [...state.messages, r]));
+      emit(state.copyWith(requestState: RequestState.success, messages: {
+        state.messages.entries.first.key: [
+          ...state.messages.entries.first.value,
+          r
+        ]
+      }));
     });
   }
 
   clearAndSave() async {
-    if (state.messages.isNotEmpty) {
-      if (!state.recentChats.any((element) => element == state.messages)) {
-        await repo.saveChat(state.messages);
+    if (state.messages.entries.first.value.isNotEmpty) {
+      /* if (!state.recentChats.any((element) => element == state.messages)) {
+        await repo.saveChat(null, state.messages.entries.first.value);
         await getChats();
-      } else {
-        emit(state.copyWith(messages: []));
-      }
+      } */
+      await repo.saveChat(
+        state.messages.entries.first.key == 'new'
+            ? null
+            : state.messages.entries.first.key,
+        state.messages.entries.first.value,
+      );
+      await getChats();
     }
   }
 
@@ -48,22 +64,22 @@ class ChatCubit extends Cubit<ChatState> {
     emit(state.copyWith(idList: await repo.getIDs()));
 
     if (state.idList.isNotEmpty) {
-      List<List<MessageModel>> chatList = [];
+      List<Map<String, List<MessageModel>>> chatList = [];
       for (var id in state.idList) {
-        chatList.add(await repo.getChat(id));
+        chatList.add({id: await repo.getChat(id)});
       }
-      emit(state.copyWith(recentChats: chatList, messages: []));
+      emit(state.copyWith(recentChats: chatList, messages: {'new': []}));
       log(chatList.toString());
-      log(chatList.last.first.content);
+      // log(chatList.last.values.first.first.toString());
     }
   }
 
-  setAsCurrentChat(List<MessageModel> chat) {
+  setAsCurrentChat(Map<String, List<MessageModel>> chat) {
     emit(state.copyWith(messages: chat));
   }
 
   deleteChats() async {
     await repo.clearConversations();
-    emit(state.copyWith(recentChats: [], messages: []));
+    emit(state.copyWith(recentChats: [], messages: {}));
   }
 }

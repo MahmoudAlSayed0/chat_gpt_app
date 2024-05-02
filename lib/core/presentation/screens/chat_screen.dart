@@ -50,7 +50,7 @@ class ChatScreenState extends State<ChatScreen> {
               45.verticalSpace,
               const ChatScreenHeader(),
               Expanded(
-                child: state.messages.isEmpty
+                child: state.messages.entries.first.value.isEmpty
                     ? Center(
                         child: Text(
                           'Ask anything, get your answer',
@@ -65,10 +65,12 @@ class ChatScreenState extends State<ChatScreen> {
                       )
                     : ListView.builder(
                         controller: scrollController,
-                        itemCount: state.messages.length,
+                        itemCount: state.messages.entries.first.value.length,
                         itemBuilder: (context, index) => ChatMessageWidget(
-                            isUser: state.messages[index].isUser,
-                            message: state.messages[index].content),
+                            isUser: state
+                                .messages.entries.first.value[index].isUser,
+                            message: state
+                                .messages.entries.first.value[index].content),
                       ),
               ),
               Padding(

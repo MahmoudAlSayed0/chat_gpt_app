@@ -5,17 +5,17 @@ part of 'chat_cubit.dart';
 class ChatState extends Equatable {
   const ChatState(
       {this.requestState = RequestState.init,
-      this.messages = const [],
+      this.messages = const {'new': []},
       this.errorMessage = '',
       this.idList = const [],
       this.fetchingData = false,
       this.recentChats = const []});
 
   final RequestState requestState;
-  final List<MessageModel> messages;
+  final Map<String?, List<MessageModel>> messages;
   final String errorMessage;
   final List<String> idList;
-  final List<List<MessageModel>> recentChats;
+  final List<Map<String, List<MessageModel>>> recentChats;
   final bool fetchingData;
 
   @override
@@ -32,10 +32,10 @@ class ChatState extends Equatable {
 
   ChatState copyWith({
     RequestState? requestState,
-    List<MessageModel>? messages,
+    Map<String?, List<MessageModel>>? messages,
     String? errorMessage,
     List<String>? idList,
-    List<List<MessageModel>>? recentChats,
+    List<Map<String, List<MessageModel>>>? recentChats,
     bool? fetchingData,
   }) {
     return ChatState(

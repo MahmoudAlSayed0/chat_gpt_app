@@ -55,7 +55,8 @@ class HomeScreenState extends State<HomeScreen> {
                                 RouteManager.goTo(RouteManager.chat);
                               },
                               child: ChatHistoryWidget(
-                                title: state.recentChats[index].first.content,
+                                title: state.recentChats[index].entries.first
+                                    .value.first.content,
                               ),
                             );
                           },
